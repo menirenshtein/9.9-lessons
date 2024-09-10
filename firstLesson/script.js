@@ -1,3 +1,4 @@
+
 const tasks = [
     { id: 1, title: "Clean the house", status: "ToDo" },
     { id: 2, title: "Grocery shopping", status: "ToDo" },
@@ -29,22 +30,89 @@ const tasks = [
     { id: 28, title: "Bake a cake", status: "ToDo" },
     { id: 29, title: "Do the dishes", status: "ToDo" },
     { id: 30, title: "Meditate for 15 minutes", status: "ToDo" }
-  ];
+];
 
+// יצירת משתנים לתפיסת אלמנטים
 
-
-localStorage.setItem('tasks', JSON.stringify(tasks))
-
-const allTasks = JSON.parse(localStorage.getItem('tasks'))
-
-  
+const RTable = tasks;
 const mainDiv = document.querySelector(".main-container")
 const table = document.querySelector(".Table")
 const submit = document.querySelector(".submitBtn")
 const input = document.querySelector(".inputText");
 
+localStorage.setItem('RTable', JSON.stringify(RTable))
 
-const filterTasksByInput = (e) => {
+const allTasks = JSON.parse(localStorage.getItem('RTable'))
+// console.log(allTasks)
+
+
+
+function getTaskByDis(dis) {
+    const allTasks = JSON.parse(localStorage.getItem('RTable'));
+    allTasks.forEach(task => {
+        if(task.title == dis.value){
+            console.log(task)
+            return task
+        }
+        else 
+        return null
+    });
+}
+
+function createRow() {
+    const table = document.getElementById("")
+
+    const trTable = document.createElement("tr");
+
+    // Create table cells
+    const tdTableID = document.createElement("td");
+    const tdTableToDo = document.createElement("td");
+    const tdTableStatus = document.createElement("td");
+    const tdTableAction = document.createElement("td");
+
+    // Create and configure Update button
+    const updateBtn = document.createElement("button");
+    updateBtn.setAttribute("id", task.id);
+    updateBtn.addEventListener('click', () => { changeToDO(updateBtn.id) });
+    updateBtn.classList = "btnToDo";
+    updateBtn.innerText = "Update ToDo";
+
+    // Create and configure Delete button
+    const deleteBtn = document.createElement("button");
+    deleteBtn.setAttribute("id", task.id);
+    deleteBtn.innerText = "Delete ToDo";
+    deleteBtn.addEventListener('click', () => { DeleteToDo(deleteBtn.id) });
+
+    // Create and configure Status Update button
+    const statusUpdateBtn = document.createElement("button");
+    statusUpdateBtn.setAttribute("id", task.id);
+    statusUpdateBtn.innerText = "Update Status";
+    statusUpdateBtn.addEventListener('click', () => { changeToDoStatus(statusUpdateBtn.id) });
+
+    // Append buttons to action cell
+    tdTableAction.style.display = "flex";
+    tdTableAction.style.justifyContent = "space-between";
+    tdTableAction.appendChild(updateBtn);
+    tdTableAction.appendChild(statusUpdateBtn);
+    tdTableAction.appendChild(deleteBtn);
+    
+    // Append cells to row
+
+    trTable.appendChild(tdTableID);
+    trTable.appendChild(tdTableToDo);
+    trTable.appendChild(tdTableStatus);
+    trTable.appendChild(tdTableAction);
+
+    // Append row to table
+    table.appendChild(trTable);
+
+}
+
+
+getTaskByDis(input)
+
+// פונקציית פילטור למשימות
+    const filterTasksByInput = (e) => {
     const currentText = e.target.value.toLowerCase();
 
     currentTasksList = tasks.filter((task) => {
@@ -55,103 +123,121 @@ const filterTasksByInput = (e) => {
 
 }
 
-
-// filterTasksByInput
+// פונקצית הוספה לטבלה
 function AddToTheTable(currentTasks) {
     if (currentTasks != null) {
-        table.innerHTML = ""
+        table.innerHTML = "";  // Clear the table before adding new rows
         currentTasks.forEach((task) => {
-            const trTable = document.createElement("tr");
-            const tdTableID = document.createElement("td");
-            const tdTableToDo = document.createElement("td");
-            const tdTableStatus = document.createElement("td");
-            const tdTableAction = document.createElement("td");
-            // tdTableAction.style.display = "flex"
-            // tdTableAction.style.justifyContent = "space-between"
-            const Updatbtn = document.createElement("Button");
-            Updatbtn.setAttribute("id", task.id)
-            Updatbtn.addEventListener('click', ()=> {changeToDO(Updatbtn.id)})
-            Updatbtn.classList = "bntToDo"
-            Updatbtn.innerText = " add ToDo"
+           
+            // Set cell values
+            tdTableID.innerText = task.id;
+            tdTableToDo.innerText = task.title;
+            tdTableStatus.innerText = task.status;
 
-            const deletebtn = document.createElement("button");
-            deletebtn.setAttribute("id", task.id)
-            // deletebtn.classList = "bntToDo"
-            deletebtn.innerText = " Delete ToDo"
-            deletebtn.addEventListener('click', ()=> {DeleteToDo(deletebtn.id)})
-            // deletebtn.style.margin
-
-            
-            const statusUpdatebtn = document.createElement("button");
-            statusUpdatebtn.setAttribute("id", task.id)
-            statusUpdatebtn.innerText = " add ToDo status"
-            statusUpdatebtn.addEventListener('click', ()=> {changeToDoStatus(statusUpdatebtn.id)})
-
-
-            
-            
-            tdTableID.innerText = task.id
-            tdTableToDo.innerText = task.title
-            tdTableStatus.innerText = task.status
-            tdTableAction.appendChild(Updatbtn )
-            tdTableAction.appendChild(statusUpdatebtn )
-            tdTableAction.appendChild(deletebtn)
-            
-            trTable.appendChild(tdTableID)
-            trTable.appendChild(tdTableToDo)
-            trTable.appendChild(tdTableStatus)
-            trTable.appendChild(tdTableAction)
-            
-            table.appendChild(trTable)
-        });
-    }
-    else{
+           
+        }
+    );
+    } 
+    else 
+    {
         
-        console.log("List is Empty")
+        console.log("List is empty");
     }
-    
 }
+    
 
+// filterTasksByInput
+// function AddToTheTable(currentTasks) {
+//     if (currentTasks != null) {
+//         table.innerHTML = ""
+//         currentTasks.forEach((task) => {
+//             const trTable = document.createElement("tr");
+//             const tdTableID = document.createElement("td");
+//             const tdTableToDo = document.createElement("td");
+//             const tdTableStatus = document.createElement("td");
+//             const tdTableAction = document.createElement("td");
+//             // tdTableAction.style.display = "flex"
+//             // tdTableAction.style.justifyContent = "space-between"
+//             const Updatbtn = document.createElement("Button");
+//             Updatbtn.setAttribute("id", task.id)
+//             Updatbtn.addEventListener('click', ()=> {changeToDO(Updatbtn.id)})
+//             Updatbtn.classList = "bntToDo"
+//             Updatbtn.innerText = " add ToDo"
+
+//             const deletebtn = document.createElement("button");
+//             deletebtn.setAttribute("id", task.id)
+//             // deletebtn.classList = "bntToDo"
+//             deletebtn.innerText = " Delete ToDo"
+//             deletebtn.addEventListener('click', ()=> {DeleteToDo(deletebtn.id)})
+//             // deletebtn.style.margin
+
+            
+//             const statusUpdatebtn = document.createElement("button");
+//             statusUpdatebtn.setAttribute("id", task.id)
+//             statusUpdatebtn.innerText = " add ToDo status"
+//             statusUpdatebtn.addEventListener('click', ()=> {changeToDoStatus(statusUpdatebtn.id)})
+
+
+            
+            
+//             tdTableID.innerText = task.id
+//             tdTableToDo.innerText = task.title
+//             tdTableStatus.innerText = task.status
+//             tdTableAction.appendChild(Updatbtn )
+//             tdTableAction.appendChild(statusUpdatebtn )
+//             tdTableAction.appendChild(deletebtn)
+            
+//             trTable.appendChild(tdTableID)
+//             trTable.appendChild(tdTableToDo)
+//             trTable.appendChild(tdTableStatus)
+//             trTable.appendChild(tdTableAction)
+            
+//             table.appendChild(trTable)
+//         });
+//     }
+//     else{
+        
+//         console.log("List is Empty")
+//     }
+    
+// }
+
+// הוספת ה אירוע
 submit.addEventListener("click", filterTasksByInput)
     
     
 
-
+// שינוי המשימה
 function changeToDO(id, e) {
-    const todo = tasks.find((t)=> t.id == id 
-    )
+    const todo = tasks.find((t)=> t.id == id)
     const ToDoInput = document.getElementById("inputText").value
-    if(ToDoInput.length > 1 ){
+    if(ToDoInput.length > 1){
         todo.title = ToDoInput
-        filterTasksByInput(e)
+        // filterTasksByInput(e)
     }
 }
 
 // a.addEventListener("click", changeToDo(id))
-
+ // שינוי הסטטוס של המשימה
 function changeToDoStatus(id) {
     const todo = tasks.find((t)=> t.id == id)
     if(todo.status == "ToDo") {
         todo.status == "Done"
-        const index = tasks.indexOf(todo)
-        
-        console.log(tasks[index])
         // style.
         // todo.style.color = "red";
     }
     else {
         return    
     }
-    // filterTasksByInput(e)
 
 }
-
+ // מחיקת המשימה
 function  DeleteToDo(id) {
     const todo = tasks.find((t)=> t.id == id)
     const index = tasks.indexOf(todo)
     tasks.splice(index, 1)
-    // filterTasksByInput(e)
 
 }
 
-DeleteToDo(2)
+// DeleteToDo(2)
+
